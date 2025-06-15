@@ -6,12 +6,6 @@ from redis import StrictRedis
 from time import strftime, sleep
 
 
-redis_host = os.getenv('REDIS_HOST', 'localhost')
-redis_port = os.getenv('REDIS_PORT', '6379')
-redis_pw = os.getenv('REDIS_PW', 'password')
-redis_channels = os.getenv('REDIS_CHANNELS', 'channel_test').split(',')
-
-
 def decode_base64(encoded_text):
     try:
         decoded_bytes = base64.b64decode(encoded_text)
@@ -34,8 +28,12 @@ def extract_readable_text(html_content):
 
 
 def subscribe_redis_channel():
-
     try:
+        redis_host = os.getenv('REDIS_HOST', 'localhost')
+        redis_port = os.getenv('REDIS_PORT', '6379')
+        redis_pw = os.getenv('REDIS_PW', 'password')
+        redis_channels = os.getenv('REDIS_CHANNELS', 'channel_test').split(',')
+
         client = StrictRedis(host=redis_host, password=redis_pw, port=int(redis_port))
         subscriber = client.pubsub()
         subscriber.psubscribe(*redis_channels)
@@ -59,5 +57,5 @@ def subscribe_redis_channel():
 
 
 if __name__ == "__main__":
-    print('Starting Mdk Mail Cleaner...')
+    print('Starting Mdk Mail Cleaner')
     subscribe_redis_channel()

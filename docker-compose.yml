@@ -3,7 +3,7 @@ version: '3.8'
 services:
   mdk_mail_cleaner:
     build: .
-    image: manduca/mdk_mail_cleaner:latest
+    image: mdk/mdk_mail_cleaner:1.0
     container_name: mdk_mail_cleaner
     environment:
       REDIS_HOST: localhost
