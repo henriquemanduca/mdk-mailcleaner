@@ -34,23 +34,28 @@ def extract_readable_text(html_content):
 
 
 def subscribe_redis_channel():
-    client = StrictRedis(host=redis_host, password=redis_pw, port=int(redis_port))
-    subscriber = client.pubsub()
-    subscriber.psubscribe(*redis_channels)
 
-    while True:
-        messages = subscriber.get_message(ignore_subscribe_messages=True, timeout=1.0)
-        now = strftime('%d/%m/%Y:%H:%M:%S')
+    try:
+        client = StrictRedis(host=redis_host, password=redis_pw, port=int(redis_port))
+        subscriber = client.pubsub()
+        subscriber.psubscribe(*redis_channels)
 
-        if messages:
-            channel = messages["channel"].decode("utf-8")
-            print(f'{now} - {channel}')
+        while True:
+            messages = subscriber.get_message(ignore_subscribe_messages=True, timeout=1.0)
+            now = strftime('%d/%m/%Y:%H:%M:%S')
 
-            encoded_content = messages["data"].decode("utf-8")
-            if clean_content := extract_readable_text(encoded_content):
-                client.publish(f'{channel}_get_back', clean_content)
+            if messages:
+                channel = messages["channel"].decode("utf-8")
+                print(f'{now} - {channel}')
 
-        sleep(1)
+                encoded_content = messages["data"].decode("utf-8")
+                if clean_content := extract_readable_text(encoded_content):
+                    client.publish(f'{channel}_get_back', clean_content)
+
+            sleep(1)
+    except Exception as e:
+        print(f"Error on connecting Redis: {e}")
+        return None
 
 
 if __name__ == "__main__":
