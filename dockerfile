@@ -7,6 +7,7 @@ COPY app.py .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
+ENV PYTHONUNBUFFERED=1
 ENV REDIS_HOST=localhost
 ENV REDIS_PORT=6379
 ENV REDIS_PW=password
