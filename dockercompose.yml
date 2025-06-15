@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  mdk_mail_cleaner:
+    build: .
+    container_name: mdk_mail_cleaner
+    environment:
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      REDIS_PW: password
+      REDIS_CHANNELS: channel_test,channel_test_2
+    restart: unless-stopped
