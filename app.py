@@ -61,13 +61,13 @@ def subscribe_redis_channel():
                 try:
                     data = json.loads(messages["data"].decode("utf-8"))
                     if clean_content := extract_readable_text(data.get('base64Content')):
-                        # message = {
-                        #     'emailId': data.get('emailId'),
-                        #     'folderId': data.get('folderId'),
-                        #     'base64Content': encode_base64(clean_content)
-                        # }
+                        message = {
+                            'emailId': data.get('emailId'),
+                            'folderId': data.get('folderId'),
+                            'base64Content': encode_base64(clean_content)
+                        }
                         data.set('base64Content', encode_base64(clean_content))
-                        client.publish(f'{channel}_get_back', json.dumps(data))
+                        client.publish(f'{channel}_get_back', json.dumps(message))
                 except json.JSONDecodeError as e:
                     print(f"Error decoding JSON message: {e}")
                     continue
