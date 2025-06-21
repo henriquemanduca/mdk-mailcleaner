@@ -66,7 +66,6 @@ def subscribe_redis_channel():
                             'folderId': data.get('folderId'),
                             'base64Content': encode_base64(clean_content)
                         }
-                        data.set('base64Content', encode_base64(clean_content))
                         client.publish(f'{channel}_get_back', json.dumps(message))
                 except json.JSONDecodeError as e:
                     print(f"Error decoding JSON message: {e}")
