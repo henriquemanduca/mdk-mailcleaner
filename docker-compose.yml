@@ -1,19 +1,17 @@
-version: '3.8'
-
 networks:
-  dk_default:
+  projetos-vps:
     external: true
 
 services:
-  mdk_mail_cleaner:
+  mailcleaner:
     build: .
-    image: mdk/mdk_mail_cleaner:1.0
-    container_name: mdk_mail_cleaner
+    image: mdk/mailcleaner:1.0
+    container_name: mailcleaner
     environment:
       REDIS_HOST: localhost
       REDIS_PORT: 6379
       REDIS_PW: password
       REDIS_CHANNELS: channel_test,channel_test_2
     networks:
-      - dk_default
+      - projetos-vps
     restart: unless-stopped
