@@ -1,3 +1,5 @@
-BeautifulSoup4
-redis
-python-dotenv
+beautifulsoup4==4.14.3
+fastapi==0.136.3
+python-dotenv==1.0.1
+redis==8.0.0
+uvicorn[standard]==0.48.0

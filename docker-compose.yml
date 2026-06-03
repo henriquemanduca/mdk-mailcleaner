@@ -1,17 +1,19 @@
-networks:
-  projetos-vps:
-    external: true
-
 services:
-  mailcleaner:
-    build: .
-    image: mdk/mailcleaner:1.0
-    container_name: mailcleaner
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mdk/mailcleaner:2.0
+    container_name: mailcleaner-api
     environment:
-      REDIS_HOST: localhost
+      REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_PW: password
-      REDIS_CHANNELS: channel_test,channel_test_2
-    networks:
-      - projetos-vps
+      REQUEST_QUEUE: mailcleaner:requests
+      WORKER_ENABLED: "true"
+    ports:
+      - "8000:8000"
+    depends_on:
+      redis:
+        condition: service_healthy
     restart: unless-stopped
