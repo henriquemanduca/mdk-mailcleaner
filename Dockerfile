@@ -6,6 +6,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app.py .
+COPY mailcleaner ./mailcleaner
 
 ENV PYTHONUNBUFFERED=1
 ENV REDIS_HOST=redis
