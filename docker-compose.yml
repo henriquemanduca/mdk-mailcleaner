@@ -6,10 +6,11 @@ services:
     image: mdk/mailcleaner:2.0
     container_name: mailcleaner-api
     environment:
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      REDIS_PW: password
-      REQUEST_QUEUE: mailcleaner:requests
+      REDIS_HOST: ${REDIS_HOST:-redis}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      REDIS_PW: ${REDIS_PW:-}
+      REDIS_DB: ${REDIS_DB:-0}
+      REQUEST_QUEUE: ${REQUEST_QUEUE:-mailcleaner:requests}
       WORKER_ENABLED: "true"
     ports:
       - "8000:8000"
